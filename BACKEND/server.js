@@ -28,9 +28,9 @@ app.use(bodyParser.json())
 //IT20197032
 
 
-// const JobPostRouter = require("./Routes/Weather.js")
-// app.use("/weather", JobPostRouter)
-
+const JobPostRouter = require("./Routes/Weather.js")
+app.set("/weather", JobPostRouter)
+//app.set('port', process.env.PORT || 3000)
 
 app.listen(PORT, () => {
   console.log(`Server up and running on port ${PORT}`)
