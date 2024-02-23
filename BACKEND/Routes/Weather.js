@@ -8,10 +8,10 @@ console.log("api", process.env.OPENWEATHERMAP_API_KEY);
 const apiid=process.env.OPENWEATHERMAP_API_KEY;
 // router.route("/adduser").post((req, res) => {
 
-router.route("/location").get(async(req, res,next) => {  
-        console.log("missing", req.params);
+router.route("/location").get(async(req, res) => {  
+        console.log("missing", req.query);
     try {
-      const { latitude, longitude } = req.params; 
+      const { latitude, longitude } = req.query; 
       console.log("missing", latitude);
       if (!latitude || !longitude) {
         console.log("missing");
@@ -42,3 +42,5 @@ router.route("/location").get(async(req, res,next) => {
       res.status(500).json({ message: 'Error retrieving weather data' });
     }
   });
+
+  module.exports = router; // Ensure that you export the router

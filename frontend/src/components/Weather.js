@@ -22,28 +22,31 @@ const WeatherApp = () => {
   const apiKey = "33c92b0552e0eea71460739025382726";
   //const formattedDate = moment(weatherData.dt * 1000).format('MMMM Do YYYY');
 
-  const getLocation = () => {
+  const getLocation = async () => {
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      async (position) => {
         const { latitude, longitude } = position.coords;
         console.log(latitude,longitude,"longitude and lat");
-        // Send latitude and longitude to backend (e.g., using a fetch API call)
-        const location ={latitude, longitude}
-        axios
-    .post(`https://localhost:8070/register/adduser`, location)
-    .then((response) => {
-      console.log("Response:", response.data);
-      alert("Thanks for joining!");
-      window.location = `/signin`;
-    })
-    .catch((error) => {
-      console.error("Axios Error:", error);
-      alert("Error occurred during registration");
-    });
-      },
-      (error) => {
+
+        const weatherData ={latitude, longitude}
+        console.log(weatherData,"weatherData aa");
+      // const response =   await axios .get(`http://localhost:8070/weather/location`,  weatherData );
+  
+      const response = await axios.get(`http://localhost:8070/weather/location?latitude=${latitude}&longitude=${longitude}`);
+
+      if(response){
+      console.log(response,"response");
+      const data = await response.data;
+      setWeatherData(data);
+      //setFormattedDate(moment(weatherData.dt * 1000).format("MMMM Do YYYY"));
+
+      setError(null);
+     }
+     setError("Error fetching weather data. Please try again.");
+      },(error) => {
         // Handle location access denial or errors
         console.error("Error getting location:", error);
+        setError("Error fetching weather data. Please try again.");
         // Show an error message or provide a location fallback option
       },
       {
@@ -71,8 +74,9 @@ const WeatherApp = () => {
 
   useEffect(() => {
     // Fetch initial weather data
-    fetchWeatherData();
-  }, [latitude, longitude]);
+    ///fetchWeatherData();
+    getLocation();
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -92,7 +96,7 @@ const WeatherApp = () => {
         
           <div>
              
-            <input
+            {/* <input
               type="text"
               id="latitude"
               name="latitude"
@@ -114,17 +118,17 @@ const WeatherApp = () => {
               className="input-field"
               //onChange={(e) => setLon(e.target.value)}
               // handleKeyDown ={handleKeyPress}
-            />
+            /> */}
           </div>
           {error && <div>{error}</div>}
           {weatherData && (
             <div>
-              <p>Name: {weatherData.name} </p>
-              <p>Country: {weatherData.sys.country} </p>
-              <p>Temperature: {weatherData.main.temp} °C</p>
-              <p>Weather: {weatherData.weather[0].description}</p>
+              {/* <p>Name: {weatherData.name} </p>
+              <p>Country: {weatherData.sys.country} </p> */}
+              <p>Temperature: {weatherData.temperature} °C</p>
+              {/* <p>Weather: {weatherData.weather[0].description}</p> */}
               <img
-                src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
                 alt="Weather Icon"
               />
               <p>Date: {formattedDate}</p>

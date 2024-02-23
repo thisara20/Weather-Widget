@@ -29,7 +29,7 @@ app.use(bodyParser.json())
 
 
 const JobPostRouter = require("./Routes/Weather.js")
-app.set("/weather", JobPostRouter)
+app.use("/weather", JobPostRouter)
 //app.set('port', process.env.PORT || 3000)
 
 app.listen(PORT, () => {
