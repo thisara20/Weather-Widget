@@ -29,11 +29,17 @@ router.route("/location").get(async(req, res) => {
           appid: process.env.OPENWEATHERMAP_API_KEY,
         }, 
       });
-  
+  console.log(response,"response");
       const weatherData = {
-        temperature: Math.floor(response.data.main.temp - 273.15), // Convert Kelvin to Celsius
+        temperature: response.data.main.temp,
+       // temperature: Math.floor(response.data.main.temp - 273.15), // Convert Kelvin to Celsius
         description: response.data.weather[0].description,
         icon: response.data.weather[0].icon,
+        dt:response.data.dt,
+        country:response.data.sys.country,
+        name:response.data.name,
+        temp_min:response.data.main.temp_min,
+        temp_max:response.data.main.temp_max, 
       };
       console.log("weatherData",weatherData);
       res.json(weatherData);
