@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import "./Weather.css";
-
+//import "./Weather.css";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-
 import axios from "axios";
 import TypingEffect from "../TypingEffect";
 
@@ -18,8 +15,6 @@ const WeatherApp = () => {
   const [sunriseTime, setSunriseTime] = useState();
   const [sunsetTime, setSunsetTime] = useState();
   const [combinedText, setCombinedText] = useState();
-
-  
 
   const getLocation = async () => {
     navigator.geolocation.getCurrentPosition(
@@ -42,45 +37,27 @@ const WeatherApp = () => {
             weatherData?.sunrise &&
               moment(weatherData.sunrise * 1000).format("h:mm A")
           );
-          setCombinedText( `${weatherData?.name}` + ", " + `${weatherData?.country}`);
+          setCombinedText(
+            `${weatherData?.name}` + ", " + `${weatherData?.country}`
+          );
           setError(null);
         }
       },
-      (error) => {     
-        // Handle location access denial or errors
-        console.error("Error getting location:", error);
+      (error) => {
+       
         setError("Error fetching weather data. Please try again.");
       },
       {
         enableHighAccuracy: true, // Request more precise location if needed
-      } 
+      }
     );
   };
-  
+
   useEffect(() => {
     getLocation();
-     
   }, [combinedText]);
 
-  // const TypingEffect = ({ text, delay, color }) => {
-  //   const [displayText, setDisplayText] = useState("");
-  //   const [index, setIndex] = useState(0);
-
-  //   useEffect(() => {
-  //     const timer = setTimeout(() => {
-  //       if (index < text?.length) {
-  //         setDisplayText((prevText) => prevText + text[index]);
-  //         setIndex((prevIndex) => prevIndex + 1);
-  //       }
-  //     }, delay);
-
-  //     return () => clearTimeout(timer);
-  //   }, [index, text, delay]);
-
-  //   return <span style={{ color, fontWeight: "bold" }}>{displayText}</span>;
-  // };
-
-  return ( 
+  return (
     <Container
       maxWidth="md"
       style={{
@@ -99,27 +76,28 @@ const WeatherApp = () => {
             backgroundColor: "#00308F",
             color: "white",
           }}
-          className="blue-background"
         >
           <Typography style={{ marginTop: "20px" }} variant="h4">
             Weather Information
           </Typography>
-          {/* <Typography style={{ marginTop: "20px" }} variant="h5">
-            Right Now in {weatherData?.name} , {weatherData?.country} , It's {weatherData?.description}
-          </Typography> */}
+
           <Typography style={{ marginTop: "20px" }} variant="h5">
             Right Now in{" "}
-            <TypingEffect  text={combinedText} delay={250} color="yellow" key={combinedText}/> ,
-            It's {weatherData?.description}
+            <TypingEffect
+              text={combinedText}
+              delay={250}
+              color="yellow"
+              key={combinedText}
+            />{" "}
+            , It's {weatherData?.description}
           </Typography>
 
-          {/* {weatherData.map((weatherData) => ( */}
           <Grid
             container
             spacing={3}
             style={{ marginTop: "20px", marginBottom: "20px" }}
           >
-            <Grid item xs={4} md={3}>
+            <Grid item xs={3} md={3}>
               <Box style={{ marginTop: "10px" }}>
                 <img
                   src={`http://openweathermap.org/img/wn/${weatherData?.icon}@2x.png`}
@@ -128,7 +106,7 @@ const WeatherApp = () => {
               </Box>
             </Grid>
 
-            <Grid item xs={12} md={3} container alignItems="center">
+            <Grid item xs={3} md={3} container alignItems="center">
               <Box>
                 <Typography variant="h4">
                   {weatherData?.temperature} °C
@@ -139,11 +117,11 @@ const WeatherApp = () => {
               </Box>{" "}
             </Grid>
             <hr style={{ border: "1px solid black" }} />
-            <Grid item xs={12} md={3} container alignItems="center">
+            <Grid item xs={3} md={3} container alignItems="center">
               <Box>
                 <Box>
                   <Typography variant="h5">
-                    {weatherData?.wind.speed}
+                    {weatherData?.wind?.speed}
                   </Typography>
                 </Box>
                 <Typography>Wind Speed</Typography>
@@ -154,7 +132,7 @@ const WeatherApp = () => {
                 <Typography>Rain </Typography>
               </Box>{" "}
             </Grid>
-            <Grid item xs={12} md={2} container alignItems="center">
+            <Grid item xs={2} md={2} container alignItems="center">
               <Box>
                 <Box>
                   <Typography variant="h5">{sunsetTime}</Typography>
@@ -168,7 +146,6 @@ const WeatherApp = () => {
               </Box>{" "}
             </Grid>
           </Grid>
-          {/* ))} */}
         </Paper>
       </div>
     </Container>
