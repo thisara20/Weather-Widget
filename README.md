@@ -9,7 +9,7 @@
 
 **1. Clone the repository:**
 
- git clone [https://github.com/](https://github.com/)<your-username>/weather-widget.git
+ git clone https://github.com/thisara20/Weather-Widget.git
 
  Files
 /frontend - React front end
@@ -20,19 +20,26 @@
 Uses a weather api key from openweathermap. OPENWEATHERMAP_API_KEY in .env file.
 
 
-**Run the application:**
+**2.Run the application:**
 
   
-/frontend - 
+- frontend - 
 
-cd frontend
-npm install
-npm start
 
-/BACKEND - 
+  cd frontend
 
-cd backend
-npm install
-npm run dev
+  npm install
+ 
+  npm start
 
+
+- BACKEND - 
+
+
+  cd backend
+
+  npm install
+
+  npm run dev
+ 
  
