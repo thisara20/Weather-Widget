@@ -7,7 +7,7 @@ const TypingEffect = ({ text,delay, color }) => {
     useEffect(() => {
       
       const timer = setTimeout(() => {
-        if (index < text.length) {
+        if (index < text?.length) {
           setDisplayText((prevText) => prevText + text[index]);
           setIndex((prevIndex) => prevIndex + 1);
         }

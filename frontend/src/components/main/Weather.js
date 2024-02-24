@@ -17,9 +17,9 @@ const WeatherApp = () => {
   const [error, setError] = useState(null);
   const [sunriseTime, setSunriseTime] = useState();
   const [sunsetTime, setSunsetTime] = useState();
+  const [combinedText, setCombinedText] = useState();
 
-  const combinedText =
-    `${weatherData?.name}` + ", " + `${weatherData?.country}`;
+  
 
   const getLocation = async () => {
     navigator.geolocation.getCurrentPosition(
@@ -34,64 +34,53 @@ const WeatherApp = () => {
         if (response) {
           const data = await response.data;
           setWeatherData(data);
-          // setSunsetTime(
-          //   weatherData?.sunset &&
-          //     moment(weatherData.sunset * 1000).format("h:mm A")
-          // );
-          // setSunriseTime(
-          //   weatherData?.sunrise &&
-          //     moment(weatherData.sunrise * 1000).format("h:mm A")
-          // );
-
+          setSunsetTime(
+            weatherData?.sunset &&
+              moment(weatherData.sunset * 1000).format("h:mm A")
+          );
+          setSunriseTime(
+            weatherData?.sunrise &&
+              moment(weatherData.sunrise * 1000).format("h:mm A")
+          );
+          setCombinedText( `${weatherData?.name}` + ", " + `${weatherData?.country}`);
           setError(null);
         }
       },
-      (error) => {
+      (error) => {     
         // Handle location access denial or errors
         console.error("Error getting location:", error);
         setError("Error fetching weather data. Please try again.");
       },
       {
         enableHighAccuracy: true, // Request more precise location if needed
-      }
+      } 
     );
   };
-  //const sunriseTime24Hour = sunriseDate.toLocaleTimeString('en-US', { hour12: false });
-
+  
   useEffect(() => {
     getLocation();
-    setSunsetTime(
-      weatherData?.sunset &&
-        moment(weatherData.sunset * 1000).format("h:mm A")
-    );
-    setSunriseTime(
-      weatherData?.sunrise &&
-        moment(weatherData.sunrise * 1000).format("h:mm A")
-    );
-    // setSunriseTime(weatherData?.sunrise?.toLocaleTimeString('en-US', { hour12: false })) ;
+     
+  }, [combinedText]);
 
-    // console.log(sunriseTime,"sss")
-  }, [error]);
+  // const TypingEffect = ({ text, delay, color }) => {
+  //   const [displayText, setDisplayText] = useState("");
+  //   const [index, setIndex] = useState(0);
 
-  const TypingEffect = ({ text, delay, color }) => {
-    const [displayText, setDisplayText] = useState("");
-    const [index, setIndex] = useState(0);
+  //   useEffect(() => {
+  //     const timer = setTimeout(() => {
+  //       if (index < text?.length) {
+  //         setDisplayText((prevText) => prevText + text[index]);
+  //         setIndex((prevIndex) => prevIndex + 1);
+  //       }
+  //     }, delay);
 
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        if (index < text?.length) {
-          setDisplayText((prevText) => prevText + text[index]);
-          setIndex((prevIndex) => prevIndex + 1);
-        }
-      }, delay);
+  //     return () => clearTimeout(timer);
+  //   }, [index, text, delay]);
 
-      return () => clearTimeout(timer);
-    }, [index, text, delay]);
+  //   return <span style={{ color, fontWeight: "bold" }}>{displayText}</span>;
+  // };
 
-    return <span style={{ color, fontWeight: "bold" }}>{displayText}</span>;
-  };
-
-  return (
+  return ( 
     <Container
       maxWidth="md"
       style={{
@@ -120,7 +109,7 @@ const WeatherApp = () => {
           </Typography> */}
           <Typography style={{ marginTop: "20px" }} variant="h5">
             Right Now in{" "}
-            <TypingEffect color="yellow" text={combinedText} delay={250} /> ,
+            <TypingEffect  text={combinedText || null} delay={250} color="yellow" key={combinedText}/> ,
             It's {weatherData?.description}
           </Typography>
 
