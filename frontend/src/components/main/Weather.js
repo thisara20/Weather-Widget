@@ -109,7 +109,7 @@ const WeatherApp = () => {
           </Typography> */}
           <Typography style={{ marginTop: "20px" }} variant="h5">
             Right Now in{" "}
-            <TypingEffect  text={combinedText || null} delay={250} color="yellow" key={combinedText}/> ,
+            <TypingEffect  text={combinedText} delay={250} color="yellow" key={combinedText}/> ,
             It's {weatherData?.description}
           </Typography>
 
