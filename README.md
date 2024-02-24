@@ -37,7 +37,7 @@ Uses a weather api key from openweathermap. OPENWEATHERMAP_API_KEY in .env file.
 - BACKEND - 
 
 
-  cd backend
+  cd BACKEND
 
   npm install
 
